@@ -15,7 +15,9 @@ import { Route, Switch } from 'react-router';
 import AccountSelector from './AccountSelector';
 import Shop from './Shop';
 import Merchant from './Merchant';
-
+import Lunch_Diner from './Lunch_Diner';
+import Bill from './Bill';
+import belanja from './static/belanja.png';
 // define out internal types
 type Props = AppProps & I18nProps;
 type State = {
@@ -33,11 +35,20 @@ class App extends React.PureComponent<Props, State> {
       {
         name: 'merchant',
         text: 'Merchant'
+      },
+      {
+        name: 'lunch_diner',
+        text: 'lunch_diner'
+      },
+      {
+        name: 'bill',
+        text: 'bill'
       }
     ]
   };
 
   render () {
+    
     const { basePath } = this.props;
     const { accountId, tabs } = this.state;
 
@@ -50,9 +61,14 @@ class App extends React.PureComponent<Props, State> {
             items={tabs}
           />
         </header>
+        <img src={belanja}/>
+        <div>Paying for treats for resturants App</div>
         <Switch>
           <Route path={`${basePath}/merchant`} render={() => <Merchant accountId={accountId} />} />
+          <Route path={`${basePath}/lunch_diner`} render={() => <Lunch_Diner />} />
+          <Route path={`${basePath}/bill`} render={() => <Bill />} />
           <Route render={() => <Shop accountId={accountId} />} />
+          
         </Switch>
       </main>
     );

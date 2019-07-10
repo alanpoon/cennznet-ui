@@ -30,7 +30,8 @@ type State = {
   asset: number,
   price: BN,
   updatePrice: BN,
-  itemId?: number
+  itemId?: number,
+  diner: number
 };
 
 const assets = [
@@ -74,7 +75,8 @@ class Merchant extends React.PureComponent<Props, State> {
     asset: assets[0].value,
     price: new BN(0),
     updatePrice: new BN(0),
-    itemId: 0
+    itemId: 0,
+    diner: 0
   };
 
   onItemChange = (item: number) => {
@@ -84,7 +86,9 @@ class Merchant extends React.PureComponent<Props, State> {
   onQuantityChange = (quantity?: BN) => {
     this.setState({ quantity: quantity || new BN(1) });
   }
-
+  onDinerChange = (diner: number) => {
+    this.setState({ diner});
+  }
   onAssetChange = (asset: number) => {
     this.setState({ asset });
   }
@@ -103,7 +107,7 @@ class Merchant extends React.PureComponent<Props, State> {
 
   render () {
     const { accountId, itemsCount } = this.props;
-    const { item, quantity, asset, price, updatePrice, itemId } = this.state;
+    const { item, quantity, asset, price, updatePrice, itemId ,diner} = this.state;
     const itemIds = [];
     const itemsCountNum = itemsCount ? itemsCount.toNumber() : 0;
     for (let i = 0; i < itemsCountNum; ++i) {
@@ -170,13 +174,18 @@ class Merchant extends React.PureComponent<Props, State> {
               label='Add Quantity'
               onChange={this.onQuantityChange}
             />
+             <InputNumber
+              value={diner}
+              label='Diner No'
+              onChange={this.onDinerChange}
+            />
           </div>
           <div className='large'>
             <Button.Group>
               <TxButton
                 accountId={accountId}
                 label='Add Item'
-                params={[itemId, quantity]}
+                params={[itemId, quantity,diner]}
                 tx='xpay.addItem'
               />
             </Button.Group>
@@ -198,13 +207,18 @@ class Merchant extends React.PureComponent<Props, State> {
               label='Remove Quantity'
               onChange={this.onQuantityChange}
             />
+            <InputNumber
+              value={diner}
+              label='Diner No'
+              onChange={this.onDinerChange}
+            />
           </div>
           <div className='large'>
             <Button.Group>
               <TxButton
                 accountId={accountId}
-                label='Add Item'
-                params={[itemId, quantity]}
+                label='Remove Item'
+                params={[itemId, quantity,diner]}
                 tx='xpay.removeItem'
               />
             </Button.Group>

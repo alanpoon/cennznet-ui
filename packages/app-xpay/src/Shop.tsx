@@ -33,13 +33,15 @@ type Props = {
 
 type State = {
   asset: number,
-  price: BN
+  price: BN,
+  diner: number
 };
 
 class Shop extends React.PureComponent<Props, State> {
   state: State = {
     asset: 16000,
-    price: new BN(1000000000)
+    price: new BN(1000000000),
+    diner:0
   };
 
   onAssetChange = (asset: number) => {
@@ -49,22 +51,34 @@ class Shop extends React.PureComponent<Props, State> {
   onPriceChange = (price?: BN) => {
     this.setState({ price: price || new BN(1000000) });
   }
-
+  getParameterByName=(name:any, url?:any):string =>  {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return '';
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
   render () {
     const { accountId, itemsCount = new BN(0) } = this.props;
-    const { asset, price } = this.state;
+    const { asset, price, diner } = this.state;
     const items = [];
     const count = itemsCount.toNumber();
+    let diner_url = this.getParameterByName('diner');
+    diner_url = (diner_url=="")?"0":diner_url;
     for (let i = 0; i < count; ++i) {
-      items.push(
-        <ItemCard
-          key={i}
-          itemId={i}
-          payingAsset={asset}
-          payingPrice={price}
-          accountId={accountId}
-        />
-      );
+      if (diner == parseInt(diner_url)){
+        items.push(
+          <ItemCard
+            key={i}
+            itemId={i}
+            payingAsset={asset}
+            payingPrice={price}
+            accountId={accountId}
+          />
+        );
+      }
     }
     return (
       <>
