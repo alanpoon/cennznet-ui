@@ -35,9 +35,7 @@ type Props = {
   item?: Option<UInt>,
   owner?: Option<AccountId>,
   quantity?: UInt,
-  price?: Option<Tuple>,
-  payingAsset: number,
-  payingPrice: BN
+  price?: Option<Tuple>
 };
 
 const ItemCard = ({  itemId, item, owner, quantity, price }: Props) => {
