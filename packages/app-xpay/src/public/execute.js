@@ -16,6 +16,19 @@ function makeSVG(tag, attrs) {
     return el;
 }
 export default function execute(image,gentleman,lady){
+     d3.xml(gentleman_image,function(xml){
+         d3.xml(lady_image,function(xml_lady){
+
+         
+        var g_gentleman = makeSVG("g",[]);
+        g_gentleman.setAttribute("transform","translate("+d.x+","+d.y+")");
+        g_gentleman.setAttribute("class","gentleman");
+        var ch = xml.documentElement.children;
+        for (var i=0;i<ch.length;i++){
+            g_gentleman.append(ch[i]);
+        }
+        })
+    })
     var data = {
         "heatmap": {
             "binSize": 3,
@@ -100,32 +113,27 @@ export default function execute(image,gentleman,lady){
        
     data.heatmap.map.forEach(function(d) {
         if (d.id ==gentleman){
-           d3.xml(gentleman_image,function(xml){
-               var g =makeSVG("g",[]);
-               g.setAttribute("transform","translate("+d.x+","+d.y+")");
-               g.setAttribute("class","gentleman");
-               var ch = xml.documentElement.children;
-               for (var i=0;i<ch.length;i++){
-                    g.append(ch[i]);
-               }
+           
             document.getElementsByClassName("map-layers")[0].append(g);
             
-           });
+           
         }else if (d.id ==lady){
             d3.xml(lady_image,function(xml){
                 var g =makeSVG("g",[]);
                 g.setAttribute("transform","translate("+d.x+","+d.y+")scale(0.1)")
                 g.setAttribute("class","lady");
+                g.setAttribute("id","lady_"+d.id);
                 var ch = xml.documentElement.children;
                 for (var i=0;i<ch.length;i++){
                      g.append(ch[i]);
                 }
             document.getElementsByClassName("map-layers")[0].append(g);
+            $("#lady_"+d.id).click(function(){
+                var id = d.id;
+                window.location.ref = "/xpay/shop?diner="+id;
+            })
     });
     }
 });
-    $(".lady").click(function(){
-        var id = $(this).data("diner").split("_")[1];
-        window.location.ref = "/xpay/shop?diner="+id;
-    })
+    
 }
