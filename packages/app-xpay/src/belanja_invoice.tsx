@@ -5,7 +5,7 @@ import { AddressMini } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api/with';
 import { formatBalance } from '@polkadot/util';
 import { assetRegistry } from '@cennznet/crml-generic-asset';
-
+import { itemsById } from './items';
 const Wrapper = styled.div`
   border: 2px solid #eee;
   border-radius: 8px;
@@ -21,17 +21,26 @@ const ItemDescWrapper = styled.div`
 type Props = {
   itemId: number,
   owner?: Option<AccountId>,
-  quantity?: UInt,
+  quantity: UInt,
   price?: Option<Tuple>,
-  paid?: boolean
+  paid?: string,
+  item?: Option<UInt>
 };
 
-const Belanja_invoice = ({  itemId, owner, quantity, price,paid }: Props) => {
+const Belanja_invoice = ({  itemId, item, owner, quantity, price,paid }: Props) => {
   const [asset, amount] = price ? price.unwrap() : [16000, 0];
+  if (itemId === undefined || !item || item.isNone) {
+    return (
+      <Wrapper>
+        <div>Loading...</div>
+      </Wrapper>
+    );
+  }
+  const itemValue = item.unwrap();
+  const itemObj = itemsById[itemValue.toNumber()] || {};
   const assetObj = assetRegistry.findAssetById(+asset) || {} as any;
   const assetName = assetObj.symbol || `Asset ${asset}`;
-  const quantityValue = quantity ? quantity.toNumber() : 0;
-  const paidValue = paid ? paid : false;
+  const paidValue = (paid=="true") ? "Yes" : "No";
   return (
     <Wrapper>
       <ItemDescWrapper>
@@ -42,7 +51,8 @@ const Belanja_invoice = ({  itemId, owner, quantity, price,paid }: Props) => {
             value={owner && owner.unwrap()}
           />
         </label>
-        <label>Stock: {quantityValue}</label>
+        <label>{itemObj.name}</label>
+        <label>Qty: {quantity}</label>
         <label>Price: {assetName} ${formatBalance((amount).toString())}</label>
         <label>Paid: {paidValue}</label>
       </ItemDescWrapper>
@@ -51,7 +61,7 @@ const Belanja_invoice = ({  itemId, owner, quantity, price,paid }: Props) => {
 };
 
 export default withCalls<Props>(
+  ['query.xPay.items', { paramName: 'itemId', propName: 'item' }],
   ['query.xPay.itemOwners', { paramName: 'itemId', propName: 'owner' }],
-  ['query.xPay.itemQuantities', { paramName: 'itemId', propName: 'quantity' }],
   ['query.xPay.itemPrices', { paramName: 'itemId', propName: 'price' }]
 )(Belanja_invoice);

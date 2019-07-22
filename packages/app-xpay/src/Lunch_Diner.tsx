@@ -25,8 +25,8 @@ class Lunch_Diner extends React.PureComponent<Props, State> {
             <div >
             <h3>Panel</h3>
             Table id: <span id="diner_panel"></span>       
-            <button id="pay_but">Invoice</button>
-            <button id="statement_but">Statement</button>
+            <button id="pay_but">Belanja Pay</button>
+            <button id="invoice_but">Invoice</button>
             </div>
           </section>)
     }

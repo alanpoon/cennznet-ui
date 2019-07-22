@@ -17,7 +17,7 @@ function makeSVG(tag, attrs) {
 }
 export default function execute(image,gentleman,lady){
     $("#pay_but").data("href","/#/xpay/belanja?diner="+lady+"&type=belanja_pay");
-    $("#statement_but").data("href","/#/xpay/belanja?diner="+lady+"&type=belanja_statement");
+    $("#invoice_but").data("href","/#/xpay/belanja?diner="+lady+"&type=belanja_statement");
     $("#diner_panel").html(lady);
      d3.xml(gentleman_image,function(xml){
         d3.xml(lady_image,function(xml_lady){
@@ -129,7 +129,7 @@ export default function execute(image,gentleman,lady){
                         var id = $(this).data("diner");
                         $("#diner_panel").html(id);
                         $("#pay_but").data("href","/#/xpay/belanja?diner="+id+"&type=belanja_pay");
-                        $("#statement_but").data("href","/#/xpay/shop?diner="+id+"&type=belanja_statement");
+                        $("#invoice_but").data("href","/#/xpay/belanja?diner="+id+"&type=belanja_statement");
                     })
                 }else{
 
@@ -141,7 +141,7 @@ export default function execute(image,gentleman,lady){
         var href = $(this).data("href");
         window.location.href = href;
     });
-    $("#statement_but").click(function(){
+    $("#invoice_but").click(function(){
         var href = $(this).data("href");
         window.location.href = href;
     });
