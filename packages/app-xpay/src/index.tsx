@@ -16,7 +16,7 @@ import AccountSelector from './AccountSelector';
 import Shop from './Shop';
 import Merchant from './Merchant';
 import Lunch_Diner from './Lunch_Diner';
-import Bill from './Bill';
+import Query_param from './Query_param';
 import belanja from './static/belanja.png';
 // define out internal types
 type Props = AppProps & I18nProps;
@@ -41,8 +41,8 @@ class App extends React.PureComponent<Props, State> {
         text: 'lunch_diner'
       },
       {
-        name: 'bill',
-        text: 'bill'
+        name: 'belanja',
+        text: 'Belanja'
       }
     ]
   };
@@ -66,7 +66,7 @@ class App extends React.PureComponent<Props, State> {
         <Switch>
           <Route path={`${basePath}/merchant`} render={() => <Merchant accountId={accountId} />} />
           <Route path={`${basePath}/lunch_diner`} render={() => <Lunch_Diner />} />
-          <Route path={`${basePath}/bill`} render={() => <Bill />} />
+          <Route path={`${basePath}/belanja`} render={() => <Query_param accountId={accountId}/>} />
           <Route render={() => <Shop accountId={accountId} />} />
           
         </Switch>

@@ -1,18 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 import { withCalls } from '@polkadot/ui-api/with';
 import BN from 'bn.js';
-import ItemCard from './invoice';
-import Bill_sub from './Bill_sub';
+import Belanja from './Belanja';
 
 type Props = {
+  accountId?: string
 };
 
 type State = {
   asset: number,
   price: BN,
 };
-class Bill extends React.PureComponent<Props, State> {
+class Query_param extends React.PureComponent<Props, State> {
     state: State = {
       asset: 16000,
       price: new BN(1000000000)
@@ -29,14 +28,18 @@ class Bill extends React.PureComponent<Props, State> {
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
-    render () {    
+    render () {
+        const {accountId} = this.props;    
         const diner_url = parseInt(this.getParameterByName('diner'));
+        const type= this.getParameterByName('type');
         return(
-          <Bill_sub 
+          <Belanja 
             diner_url = {diner_url}
+            accountId ={accountId}
+            type = {type}
           />
         )
     }
 }
 export default withCalls<Props>(
-)(Bill);
+)(Query_param);
