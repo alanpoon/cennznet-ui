@@ -23,11 +23,12 @@ type Props = {
   owner?: Option<AccountId>,
   quantity: UInt,
   price?: Option<Tuple>,
-  paid?: string,
+  paid?: UInt,
+  unpaid?: UInt,
   item?: Option<UInt>
 };
 
-const Belanja_invoice = ({  itemId, item, owner, quantity, price,paid }: Props) => {
+const Belanja_invoice = ({  itemId, item, owner, quantity, price,paid,unpaid }: Props) => {
   const [asset, amount] = price ? price.unwrap() : [16000, 0];
   if (itemId === undefined || !item || item.isNone) {
     return (
@@ -40,7 +41,6 @@ const Belanja_invoice = ({  itemId, item, owner, quantity, price,paid }: Props) 
   const itemObj = itemsById[itemValue.toNumber()] || {};
   const assetObj = assetRegistry.findAssetById(+asset) || {} as any;
   const assetName = assetObj.symbol || `Asset ${asset}`;
-  const paidValue = (paid=="true") ? "Yes" : "No";
   return (
     <Wrapper>
       <ItemDescWrapper>
@@ -54,7 +54,7 @@ const Belanja_invoice = ({  itemId, item, owner, quantity, price,paid }: Props) 
         <label>{itemObj.name}</label>
         <label>Qty: {quantity}</label>
         <label>Price: {assetName} ${formatBalance((amount).toString())}</label>
-        <label>Paid: {paidValue}</label>
+        <label>Paid: {paid.toNumber()}/{paid.toNumber()+unpaid.toNumber()}</label>
       </ItemDescWrapper>
     </Wrapper>
   );

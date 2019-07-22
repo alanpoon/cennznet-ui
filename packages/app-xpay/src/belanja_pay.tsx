@@ -24,7 +24,8 @@ type Props = {
   itemId: number,
   owner?: Option<AccountId>,
   quantity: UInt,
-  paid?: string,
+  paid?: UInt,
+  unpaid?: UInt,
   item?: Option<UInt>,
   price?: Option<Tuple>,
   accountId?: string,
@@ -32,7 +33,7 @@ type Props = {
   payingPrice?: BN
 };
 
-const Belanja_pay = ({  itemId, item,owner, quantity, price,paid ,accountId, payingAsset, payingPrice}: Props) => {
+const Belanja_pay = ({  itemId, item,owner, quantity, price,paid ,unpaid, accountId, payingAsset, payingPrice}: Props) => {
   const [asset, amount] = price ? price.unwrap() : [16000, 0];
   if (itemId === undefined || !item || item.isNone) {
     return (
@@ -45,7 +46,6 @@ const Belanja_pay = ({  itemId, item,owner, quantity, price,paid ,accountId, pay
   const itemObj = itemsById[itemValue.toNumber()] || {};
   const assetObj = assetRegistry.findAssetById(+asset) || {} as any;
   const assetName = assetObj.symbol || `Asset ${asset}`;
-  const paidValue = (paid=="true") ? "Yes" : "No";
   return (
     <Wrapper>
       <ItemDescWrapper>
@@ -59,7 +59,7 @@ const Belanja_pay = ({  itemId, item,owner, quantity, price,paid ,accountId, pay
         <label>{itemObj.name}</label>
         <label>Qty: {quantity}</label>
         <label>Price: {assetName} ${formatBalance((amount).toString())}</label>
-        <label>Paid: {paidValue}</label>
+        <label>Paid: {paid.toNumber()}/{paid.toNumber()+unpaid.toNumber()}</label>
         <TxButton
           isDisabled={quantity ==0}
           accountId={accountId}

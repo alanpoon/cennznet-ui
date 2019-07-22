@@ -38,7 +38,8 @@ class Belanja extends React.PureComponent<Props, State> {
                 key={i}
                 itemId={itemsCountNum[0][i][0].toNumber()}
                 quantity={itemsCountNum[0][i][1].toNumber()}
-                paid={itemsCountNum[0][i][2].toString()}
+                paid={itemsCountNum[0][i][2].toNumber()}
+                unpaid={itemsCountNum[0][i][3].toNumber()}
                 accountId={accountId}
                 payingAsset={payingAsset}
                 payingPrice={payingPrice}
@@ -50,7 +51,8 @@ class Belanja extends React.PureComponent<Props, State> {
               key={i}
               itemId={itemsCountNum[0][i][0].toNumber()}
               quantity={itemsCountNum[0][i][1].toNumber()}
-              paid={itemsCountNum[0][i][2].toString()}
+              paid={itemsCountNum[0][i][2].toNumber()}
+              unpaid={itemsCountNum[0][i][3].toNumber()}
               />
             )
           }
