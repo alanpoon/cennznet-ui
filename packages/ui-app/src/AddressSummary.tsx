@@ -9,7 +9,7 @@ import React from 'react';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { Nonce } from '@polkadot/ui-reactive';
 import { withCalls } from '@polkadot/ui-api';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
+import BaseIdentityIcon from 'polkadot-identicon-react-native';
 
 import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
